@@ -1,0 +1,20 @@
+<form #tripInfo="ngForm" (ngSubmit)="onClickSubmit(tripInfo.value)">
+
+  <label for="minsAbove6">Minutes traveled above 6 mph: </label>
+  <input type="number" name="minsAbove6" ngModel>
+  <br />
+
+  <label for="milesBelow6">Miles traveled below 6 mph: </label>
+  <input type="number" name="milesBelow6" ngModel>
+  <br />
+
+  <label for="date">Date: </label>
+  <input type="date" name="date" ngModel>
+  <br />
+
+  <label for="time">Start Time: </label>
+  <input type="time" name="starttime" ngModel>
+  <br />
+
+  <button type="submit">Submit</button>
+</form>
