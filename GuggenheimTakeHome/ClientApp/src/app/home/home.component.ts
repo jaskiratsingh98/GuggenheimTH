@@ -10,6 +10,8 @@ import { getBaseUrl } from '../../main';
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
+  title = 'Test';
+  result: string;
 
   onClickSubmit(data) {
     const formData = new FormData();
@@ -17,7 +19,9 @@ export class HomeComponent {
     formData.append('milesBelow6', data.milesBelow6);
     formData.append('date', data.date);
     formData.append('starttime', data.starttime);
-    this.http.post<any>('values', formData).subscribe();
+    this.http.post<any>('trip', formData).subscribe((data) => {
+      this.result = data;
+    });
     console.log(data);
   }
 

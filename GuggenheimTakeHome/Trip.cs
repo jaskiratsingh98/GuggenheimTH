@@ -7,35 +7,75 @@ namespace GuggenheimTakeHome
 {
     public class Trip
     {
+        #region Constructor
+
         public Trip(int milesBelow6Mph, int minsAbove6Mph, DateTime dateTime)
         {
-            _milesBelow6Mph = milesBelow6Mph;
-            _minsAbove6Mph = minsAbove6Mph;
-            _date = dateTime;
+            MilesBelow6Mph = milesBelow6Mph;
+            MinsAbove6Mph = minsAbove6Mph;
+            Date = dateTime;
         }
 
-        //TODO: Fix formula
-        //TODO: Use const for .35
+        #endregion
+
+        #region Properties
+
+        public int MilesBelow6Mph { get; set; }
+
+        public int MinsAbove6Mph { get; set; }
+
+        public DateTime Date { get; set; }
+
+        #endregion
+
+        #region Functions
+
         public double CalculateCost()
         {
-            return BaseFee + (.35 * (GetMilesUnits() + GetMinsUnits()));
+            return BaseFee + GetMinsPrice() + GetMilesPrice() + DetermineSurchargePrice() + NYStateTaxSurcharge;
         }
 
         private double GetMilesUnits()
         {
-            return _milesBelow6Mph * MilesUnitFactor;
+            return MilesBelow6Mph / MilesUnitFactor;
+        }
+
+        private double GetMilesPrice()
+        {
+            return UnitPrice * GetMilesUnits();
         }
 
         private double GetMinsUnits()
         {
-            return _minsAbove6Mph * MinsUnitFactor;
+            return MinsAbove6Mph * MinsUnitFactor;
         }
 
-        private int _milesBelow6Mph;
-        private int _minsAbove6Mph;
-        private DateTime _date;
-        private DateTime time;
-        private double _total;
+        private double GetMinsPrice()
+        {
+            return UnitPrice * MinsAbove6Mph;
+        }
+
+        private double DetermineSurchargePrice()
+        {
+            if(Date.DayOfWeek != DayOfWeek.Saturday && Date.DayOfWeek != DayOfWeek.Sunday)
+            {
+                if(Date.TimeOfDay >= PeakSurchargeBegin && Date.TimeOfDay < PeakSurchargeEnd)
+                {
+                    return PeakHourSurcharge;
+                }
+            }
+
+            if (Date.TimeOfDay >= NightSurchargeBegin || Date.TimeOfDay < NightSurchargeEnd)
+            {
+                return NightSurcharge;
+            }
+
+            return 0;
+        }
+
+        #endregion
+
+        #region Members
 
         private const double BaseFee = 3.0;
         private const double MilesUnitFactor = 0.2;
@@ -43,10 +83,15 @@ namespace GuggenheimTakeHome
         private const double NightSurcharge = 0.5;
         private const double PeakHourSurcharge = 1.0;
         private const double NYStateTaxSurcharge = 0.5;
+        private const double UnitPrice = 0.35;
+
+        //private const int MinsToSeconds 
 
         private readonly TimeSpan NightSurchargeBegin = new TimeSpan(20, 0, 0);
         private readonly TimeSpan NightSurchargeEnd = new TimeSpan(6, 0, 0);
         private readonly TimeSpan PeakSurchargeBegin = new TimeSpan(16, 0, 0);
         private readonly TimeSpan PeakSurchargeEnd = new TimeSpan(20, 0, 0);
+
+        #endregion
     }
 }

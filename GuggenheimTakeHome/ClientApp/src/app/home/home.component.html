@@ -1,3 +1,4 @@
+<h1>{{title}}</h1>
 <form #tripInfo="ngForm" (ngSubmit)="onClickSubmit(tripInfo.value)">
 
   <label for="minsAbove6">Minutes traveled above 6 mph: </label>
@@ -18,3 +19,5 @@
 
   <button type="submit">Submit</button>
 </form>
+
+<div *ngIf="result">The cost of the trip is {{result}}.</div>
