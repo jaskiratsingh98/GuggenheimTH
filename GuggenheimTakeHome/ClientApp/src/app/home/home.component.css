@@ -1,0 +1,11 @@
+.container {
+  width: 100vh;
+  height: 100vh;
+}
+.sidenav-drawer {
+  padding: 10px;
+  justify-content: space-between;
+}
+.result-display {
+  text-align: center;
+}
