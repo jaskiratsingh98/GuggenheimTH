@@ -1,23 +1,63 @@
-<h1>{{title}}</h1>
-<form #tripInfo="ngForm" (ngSubmit)="onClickSubmit(tripInfo.value)">
+<mat-drawer-container class="container">
+  <mat-drawer mode="side" opened>
+    <div id="formDiv" class="sidenav-drawer">
+      <form #tripInfo="ngForm" (ngSubmit)="onClickSubmit(tripInfo.value)">
 
-  <label for="minsAbove6">Minutes traveled above 6 mph: </label>
-  <input type="number" name="minsAbove6" ngModel>
-  <br />
+        <div>
+          <mat-form-field>
+            <input matInput placeholder="Mins Traveled Above 6 MPH" type="number" name="minsAbove6" min="0" ngModel>
+          </mat-form-field>
+        </div>
 
-  <label for="milesBelow6">Miles traveled below 6 mph: </label>
-  <input type="number" name="milesBelow6" ngModel>
-  <br />
+        <div>
+          <mat-form-field>
+            <input matInput placeholder="Miles Traveled Below 6 MPH" type="number" name="milesBelow6" min="0" ngModel>
+          </mat-form-field>
+        </div>
 
-  <label for="date">Date: </label>
-  <input type="date" name="date" ngModel>
-  <br />
+        <div>
+          <mat-form-field>
+            <input matInput placeholder="Date" type="date" name="date" ngModel>
+          </mat-form-field>
+        </div>
 
-  <label for="time">Start Time: </label>
-  <input type="time" name="starttime" ngModel>
-  <br />
+        <div>
+          <mat-form-field>
+            <input matInput placeholder="Start Time" type="time" name="starttime" ngModel>
+          </mat-form-field>
+        </div>
 
-  <button type="submit">Submit</button>
-</form>
+        <div>
+          <button id="submitButton" mat-raised-button type="submit"
+                  [disabled]="!tripInfo.value.minsAbove6 < 0 || !tripInfo.value.milesBelow6 < 0 || !tripInfo.value.date || !tripInfo.value.starttime">
+            Submit
+          </button>
+        </div>
 
-<div *ngIf="result">The cost of the trip is {{result}}.</div>
+        <div>
+          <button id="clearButton" mat-raised-button
+                  [disabled]="!tripInfo.value.minsAbove6 && !tripInfo.value.milesBelow6 && !tripInfo.value.date && !tripInfo.value.starttime">
+            Clear
+          </button>
+        </div>
+      </form>
+    </div>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <div class="result-display">
+      Please enter trip info to calculate the total trip.
+      <br />
+      <div *ngIf=" result">
+        <p class="result-line">The cost of the trip is ${{result}}.</p>
+      </div>
+    </div>
+  
+  </mat-drawer-content>
+</mat-drawer-container>
+
+
+
+
+
+
